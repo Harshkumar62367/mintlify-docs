@@ -3,21 +3,3 @@ title: 'Entrypoint Contract'
 description: 'Description of your new file.'
 ---
 
-## What is a Bundler?
-
-💡 A **Bundler** is a crucial component in the smart account infrastructure. It **validates and executes** `UserOperation` transactions on smart contract wallets on behalf of users.
-
-## Key Functions of Bundlers
-
-1. **Acts as an EOA**: Bundlers function like Externally Owned Accounts (EOAs) because all transactions on Ethereum must be triggered by an EOA.
-
-2. **Enhances User Experience**: Bundlers save users from creating and remembering private keys of EOAs to trigger smart contract wallet transactions. This preserves the core benefits of having a smart contract wallet.
-
-3. **Optimizes Gas Usage**: Bundlers are excellent for gas savings:
-   - Executing each transaction typically costs a fixed overhead of 21,000 gas.
-   - Bundled transactions spread this fixed cost over multiple operations, reducing overall gas costs.
-   - Modifying storage in the same transaction becomes incrementally cheaper for each additional operation.
-
-4. **Enables Efficient Execution**: While Ethereum executes transactions linearly to avoid state conflicts, `UserOperations` can be executed as a bundle. Bundlers typically include at most one transaction per smart contract wallet address, preventing clashes when modifying state.
-
-5. **Similarity to Block Builders**: Bundlers share similarities with block builders, as both broadcast validated `UserOperation` transactions to public or private mempools.
