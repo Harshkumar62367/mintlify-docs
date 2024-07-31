@@ -1,5 +1,5 @@
 ---
-title: 'Quickstart: Bundler'
+title: 'Quickstart: Bundler & Paymaster'
 description: 'Welcome to Quickstart Docs to setup your Bundler using Jiffyscan'
 ---
 
@@ -138,12 +138,99 @@ jsxCopyfunction LoginButton() {
   return <button onClick={login}>Log In</button>;
 }
 ```
-3. Install necessary dependencies
+## 3. Install necessary dependencies
 
-In your project, install the necessary dependencies from Pimlico, Privy, wagmi and viem:
+In your project, install the necessary dependencies from Pimlico, Privy, wagmi and viem & Jiffscan
 
 ```bash
 npm i permissionless viem wagmi @privy-io/wagmi
+pnpm i jiffy-labs/web3a
+```
+
+## 4. Configure Bundler and Paymaster
+
+```bash
+import { JiffyPaymaster } from "@jiffy-labs/web3a";
+import { usePrivy, useWallets } from "@privy-io/react-auth";
+import { useSetActiveWallet } from "@privy-io/wagmi";
+import { ENTRYPOINT_ADDRESS_V06, SmartAccountClient, createSmartAccountClient, walletClientToSmartAccountSigner } from "permissionless";
+import { signerToSimpleSmartAccount } from "permissionless/accounts";
+import { createPimlicoBundlerClient } from "permissionless/clients/pimlico";
+import { ENTRYPOINT_ADDRESS_V06_TYPE } from "permissionless/types";
+import { useEffect, useMemo, useState } from "react";
+import { fuse } from "viem/chains";
+import { http, useAccount, useDisconnect, usePublicClient, useWalletClient } from "wagmi";
+
+const jiffyscanKey = process.env.NEXT_PUBLIC_JIFFYSCAN_API_KEY as string;
+const bundlerUrl = process.env.NEXT_PUBLIC_BUNDLER_URL as string;
+// Define the chains with their respective entry points and RPC URLs
+export const CHAINS = [
+    {
+        name: "Fuse",
+        chain: fuse,
+        bundlerUrl: bundlerUrl,
+        explorerUrl: "https://explorer.fuse.io/tx/",
+    },
+];
+
+```
+
+```bash
+export function useSmartAccount() {
+    const [smartAccountClient, setSmartAccountClient] = useState<SmartAccountClient<ENTRYPOINT_ADDRESS_V06_TYPE> | null>(null);
+
+    const { wallets } = useWallets();
+    const { isConnected } = useAccount();
+    const publicClient = usePublicClient();
+    const { data: walletClient } = useWalletClient();
+    const [selectedChain, setSelectedChain] = useState(CHAINS[0]);
+    const embeddedWallet = useMemo(() => wallets.find((wallet) => wallet.walletClientType === "privy"), [wallets]);
+    const { setActiveWallet } = useSetActiveWallet();
+
+    useEffect(() => {
+        if (embeddedWallet) {
+            setActiveWallet(embeddedWallet);
+        }
+    }, [embeddedWallet]);
+
+    useEffect(() => {
+        (async () => {
+            if (isConnected && walletClient && publicClient) {
+                const customSigner = walletClientToSmartAccountSigner(walletClient);
+                const bundlerTransport = http(selectedChain.bundlerUrl, {
+                    fetchOptions: {
+                        headers: { "x-api-key": jiffyscanKey },
+                    },
+                });
+                const bundlerClient = createPimlicoBundlerClient({
+                    transport: bundlerTransport,
+                    entryPoint: ENTRYPOINT_ADDRESS_V06,
+                });
+                const jiffyPaymaster = new JiffyPaymaster(bundlerUrl, selectedChain.chain.id, {
+                    "x-api-key": jiffyscanKey,
+                });
+
+                const simpleSmartAccountClient = await signerToSimpleSmartAccount(publicClient, {
+                    entryPoint: ENTRYPOINT_ADDRESS_V06,
+                    signer: customSigner,
+                });
+
+                const smartAccountClient = createSmartAccountClient({
+                    account: simpleSmartAccountClient,
+                    entryPoint: ENTRYPOINT_ADDRESS_V06,
+                    chain: selectedChain.chain,
+                    bundlerTransport: bundlerTransport,
+                    middleware: {
+                        gasPrice: async () => (await bundlerClient.getUserOperationGasPrice()).fast,
+                        sponsorUserOperation: jiffyPaymaster.sponsorUserOperationV6,
+                    },
+                });
+
+                setSmartAccountClient(smartAccountClient);
+            }
+        })();
+    }, [isConnected, walletClient, publicClient, selectedChain]);
+
 ```
 
 
