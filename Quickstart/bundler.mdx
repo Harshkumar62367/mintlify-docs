@@ -1,0 +1,239 @@
+---
+title: 'Quickstart: Bundler & Paymaster'
+description: 'Welcome to Quickstart Docs to setup your Bundler using Jiffyscan'
+---
+
+
+Jiffyscan Bundlers are types-safe ERC-4337 bundler written in Typescript.
+
+Our focus is on providing the best developer experience for teams building on Account Abstraction with transaction inclusion speed, full type safety, and transaction inclusion dependability.
+
+Lets get you started to setup your Bundler using Jiffyscan.
+
+<Note>You can take the reference of Jiffyscan Demo repo [here](https://github.com/jiffy-labs/privy-demo/) </Note>
+
+# Bundler Setup
+
+## 0. Refer the repo
+
+Since React has a lot of boilerplate, we will only focus on the Jiffyscan related code. We recommend  ) refer to [quickstart code](https://github.com/jiffy-labs/privy-demo/) if you get lost as you follow along this tutorial.
+
+## 1. Create a Next.js project
+
+In this tutorial, we will be using Next.js. Start by creating a Next.js project:
+
+```bash
+npx create-next-app@latest
+```
+
+## 2. Configure your Auth provider
+
+When building a web3 application, it's crucial to have a robust and user-friendly authentication system. Two popular options for this are [Privy](https://www.privy.io/) and [Web3Auth](https://web3auth.io/). Both services offer easy-to-integrate solutions for web3 authentication and wallet management. Let's explore how to use either of these services in your project.
+
+### Using Privy
+
+Privy provides a simple, customizable authentication flow for web3 applications. It supports various login methods, including email, social logins, and wallet connections.
+
+### Installation
+
+First, install the Privy SDK:
+
+```bash
+npm install @privy-io/react-auth
+```
+ Configuration
+
+Create a PrivyProvider component to wrap your application:
+
+```bash
+import { PrivyProvider } from '@privy-io/react-auth';
+
+function MyApp({ Component, pageProps }) {
+  return (
+    <PrivyProvider
+      appId="YOUR_PRIVY_APP_ID"
+      config={{
+        loginMethods: ['email', 'wallet'],
+        appearance: {
+          theme: 'light',
+          accentColor: '#676FFF',
+        },
+      }}
+    >
+      <Component {...pageProps} />
+    </PrivyProvider>
+  );
+}
+
+export default MyApp;
+```
+
+Usage
+Now you can use Privy's hooks in your components:
+```bash
+import { usePrivy } from '@privy-io/react-auth';
+
+function LoginButton() {
+  const { login, user } = usePrivy();
+
+  if (user) {
+    return <p>Welcome, {user.email}!</p>;
+  }
+
+  return <button onClick={login}>Log In</button>;
+}
+```
+
+### Using Web3Auth
+
+Web3Auth offers a comprehensive solution for web3 authentication, supporting various login methods and blockchain networks.
+
+### Installation
+
+Install the Web3Auth SDK:
+
+```bash
+npm install @web3auth/modal
+```
+
+Configuration
+
+Set up the Web3Auth provider in your app:
+
+```bash
+import { Web3Auth } from "@web3auth/modal";
+
+const web3auth = new Web3Auth({
+  clientId: "YOUR_WEB3AUTH_CLIENT_ID",
+  web3AuthNetwork: "mainnet", // or other networks
+  chainConfig: {
+    chainNamespace: "eip155",
+    chainId: "0x1", // hex of 1 (Ethereum mainnet)
+    rpcTarget: "https://mainnet.infura.io/v3/YOUR_INFURA_KEY",
+  },
+});
+
+await web3auth.initModal();
+```
+
+Usage
+Use Web3Auth in your components:
+
+```bash
+jsxCopyfunction LoginButton() {
+  const [user, setUser] = useState(null);
+
+  const login = async () => {
+    const web3authProvider = await web3auth.connect();
+    if (web3authProvider) {
+      const userInfo = await web3auth.getUserInfo();
+      setUser(userInfo);
+    }
+  };
+
+  if (user) {
+    return <p>Welcome, {user.email}!</p>;
+  }
+
+  return <button onClick={login}>Log In</button>;
+}
+```
+## 3. Install necessary dependencies
+
+In your project, install the necessary dependencies from Pimlico, Privy, wagmi and viem & Jiffscan
+
+```bash
+npm i permissionless viem wagmi @privy-io/wagmi
+pnpm i jiffy-labs/web3a
+```
+
+## 4. Configure Bundler and Paymaster
+
+```bash
+import { JiffyPaymaster } from "@jiffy-labs/web3a";
+import { usePrivy, useWallets } from "@privy-io/react-auth";
+import { useSetActiveWallet } from "@privy-io/wagmi";
+import { ENTRYPOINT_ADDRESS_V06, SmartAccountClient, createSmartAccountClient, walletClientToSmartAccountSigner } from "permissionless";
+import { signerToSimpleSmartAccount } from "permissionless/accounts";
+import { createPimlicoBundlerClient } from "permissionless/clients/pimlico";
+import { ENTRYPOINT_ADDRESS_V06_TYPE } from "permissionless/types";
+import { useEffect, useMemo, useState } from "react";
+import { fuse } from "viem/chains";
+import { http, useAccount, useDisconnect, usePublicClient, useWalletClient } from "wagmi";
+
+const jiffyscanKey = process.env.NEXT_PUBLIC_JIFFYSCAN_API_KEY as string;
+const bundlerUrl = process.env.NEXT_PUBLIC_BUNDLER_URL as string;
+// Define the chains with their respective entry points and RPC URLs
+export const CHAINS = [
+    {
+        name: "Fuse",
+        chain: fuse,
+        bundlerUrl: bundlerUrl,
+        explorerUrl: "https://explorer.fuse.io/tx/",
+    },
+];
+
+```
+
+```bash
+export function useSmartAccount() {
+    const [smartAccountClient, setSmartAccountClient] = useState<SmartAccountClient<ENTRYPOINT_ADDRESS_V06_TYPE> | null>(null);
+
+    const { wallets } = useWallets();
+    const { isConnected } = useAccount();
+    const publicClient = usePublicClient();
+    const { data: walletClient } = useWalletClient();
+    const [selectedChain, setSelectedChain] = useState(CHAINS[0]);
+    const embeddedWallet = useMemo(() => wallets.find((wallet) => wallet.walletClientType === "privy"), [wallets]);
+    const { setActiveWallet } = useSetActiveWallet();
+
+    useEffect(() => {
+        if (embeddedWallet) {
+            setActiveWallet(embeddedWallet);
+        }
+    }, [embeddedWallet]);
+
+    useEffect(() => {
+        (async () => {
+            if (isConnected && walletClient && publicClient) {
+                const customSigner = walletClientToSmartAccountSigner(walletClient);
+                const bundlerTransport = http(selectedChain.bundlerUrl, {
+                    fetchOptions: {
+                        headers: { "x-api-key": jiffyscanKey },
+                    },
+                });
+                const bundlerClient = createPimlicoBundlerClient({
+                    transport: bundlerTransport,
+                    entryPoint: ENTRYPOINT_ADDRESS_V06,
+                });
+                const jiffyPaymaster = new JiffyPaymaster(bundlerUrl, selectedChain.chain.id, {
+                    "x-api-key": jiffyscanKey,
+                });
+
+                const simpleSmartAccountClient = await signerToSimpleSmartAccount(publicClient, {
+                    entryPoint: ENTRYPOINT_ADDRESS_V06,
+                    signer: customSigner,
+                });
+
+                const smartAccountClient = createSmartAccountClient({
+                    account: simpleSmartAccountClient,
+                    entryPoint: ENTRYPOINT_ADDRESS_V06,
+                    chain: selectedChain.chain,
+                    bundlerTransport: bundlerTransport,
+                    middleware: {
+                        gasPrice: async () => (await bundlerClient.getUserOperationGasPrice()).fast,
+                        sponsorUserOperation: jiffyPaymaster.sponsorUserOperationV6,
+                    },
+                });
+
+                setSmartAccountClient(smartAccountClient);
+            }
+        })();
+    }, [isConnected, walletClient, publicClient, selectedChain]);
+
+```
+
+
+
+
+

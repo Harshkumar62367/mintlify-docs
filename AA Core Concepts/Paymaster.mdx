@@ -1,0 +1,40 @@
+---
+title: 'Paymaster'
+description: 'Description of your new file.'
+---
+
+💡 A **Paymaster** defines the gas abstraction logic for a smart contract wallet. 
+
+## What is Gas Abstraction?
+
+Gas abstraction enables:
+- Gas payment in alternative ERC20 tokens
+- Gasless transactions (requiring gas sponsorship from a Paymaster)
+
+## Key Features of Paymasters
+
+1. **Modular Design**: ERC-4337 allows a `UserOperation` to choose any Paymaster by specifying its address and input parameters in the `paymasterAndData` field.
+
+2. **Smart Contract Implementation**: A Paymaster is essentially a smart contract implemented by a dApp. It uses custom logic in the `validatePaymasterOp` function, which the Bundler calls to selectively pay gas for UserOperations.
+
+3. **ETH Deposits**: Paymasters must deposit Ethereum on the Entry Point Contract to pay for gas for UserOperations.
+
+4. **Staking Requirement**: In addition to gas deposits, Paymasters must stake ETH on the Entry Point Contract. This stake acts as an anti-spam measure rather than being slashed.
+
+## Paymaster Interface
+
+The Paymaster interface exposes two crucial functions:
+
+### 1. `validatePaymasterOp`
+
+- Defines the logic for gas abstraction
+- Ensures sufficient balance (e.g., checking if the wallet has enough ERC20 tokens for gas payment)
+- Called before the execution of a UserOperation
+- Follows the principle of separating validation from execution
+
+### 2. `postOp`
+
+- Called at the final step of a smart contract wallet function call
+- Can revert the function call if the wallet lacks sufficient ERC20 balance to reimburse the Paymaster
+- Double-checks gas sufficiency after function execution
+- Gas is still deducted even if a function call fails at this step

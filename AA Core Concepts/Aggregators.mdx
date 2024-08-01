@@ -1,0 +1,35 @@
+---
+title: 'Aggregators'
+description: 'Description of your new file.'
+---
+
+💡 Aggregators play a crucial role in handling diverse signature schemes used by different smart contract wallets.
+
+## Why Aggregators are Important
+
+1. **Signature Scheme Diversity**: Different smart contract wallets use various signature schemes.
+2. **Efficient Validation**: Aggregating `UserOperations` with the same scheme allows for separate, more efficient validations.
+3. **Gas Optimization**: On-chain cryptographic arithmetic can be gas-intensive. Signature schemes supporting aggregation can significantly reduce gas costs during on-chain validation.
+
+## Key Functions of Aggregators
+
+Aggregators primarily use two essential functions:
+
+### 1. `aggregateSignatures`
+
+- **Input**: An array of `UserOperations`
+- **Output**: An aggregated signature using a specific scheme
+- **Purpose**: Combines multiple signatures into a single, compact representation
+
+### 2. `validateSignatures`
+
+- **Input**: 
+  - An array of `UserOperations`
+  - The aggregated signatures
+- **Purpose**: Verifies the validity of the aggregated signatures against the provided `UserOperations`
+
+## Benefits of Aggregation
+
+1. **Gas Efficiency**: Reduces the overall gas cost for validating multiple transactions
+2. **Scalability**: Enables processing of more transactions within the same gas limits
+3. **Flexibility**: Accommodates different signature schemes used by various smart contract wallets
