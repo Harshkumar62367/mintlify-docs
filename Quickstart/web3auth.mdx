@@ -1,0 +1,144 @@
+---
+title: 'Web3Auth'
+description: 'Welcome to Quickstart Docs to setup your Auth provider using Web3Auth'
+icon: 'map'
+---
+
+# Web3Auth Integration for Next.js
+
+Web3Auth is a pluggable auth infrastructure for Web3 wallets and applications. This guide will help you integrate Web3Auth into your Next.js application for seamless Web3 authentication.
+
+## Installation
+
+To use Web3Auth in your project, you'll need to install the following packages:
+
+```bash
+npm install @web3auth/modal @web3auth/base @web3auth/openlogin-adapter
+```
+
+## Basic Setup
+
+Create a new file called Web3AuthProvider.tsx in your project:
+
+```Typescript Web3AuthProvider.tsx
+"use client";
+import { Web3Auth } from "@web3auth/modal";
+import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
+import { CHAIN_NAMESPACES } from "@web3auth/base";
+import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+
+const Web3AuthContext = createContext<{ web3auth: Web3Auth | null }>({ web3auth: null });
+
+export const useWeb3Auth = () => useContext(Web3AuthContext);
+
+export const Web3AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [web3auth, setWeb3auth] = useState<Web3Auth | null>(null);
+
+  useEffect(() => {
+    const init = async () => {
+      try {
+        const web3auth = new Web3Auth({
+          clientId: process.env.NEXT_PUBLIC_WEB3AUTH_CLIENT_ID!,
+          web3AuthNetwork: "testnet",
+          chainConfig: {
+            chainNamespace: CHAIN_NAMESPACES.EIP155,
+            chainId: "0x1",
+            rpcTarget: "https://rpc.ankr.com/eth",
+          },
+        });
+
+        const openloginAdapter = new OpenloginAdapter({
+          adapterSettings: {
+            network: "testnet",
+            uxMode: "popup",
+          },
+        });
+        web3auth.configureAdapter(openloginAdapter);
+
+        setWeb3auth(web3auth);
+        await web3auth.initModal();
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    init();
+  }, []);
+
+  return (
+    <Web3AuthContext.Provider value={{ web3auth }}>
+      {children}
+    </Web3AuthContext.Provider>
+  );
+};
+```
+
+## Usage
+Wrap your app with the Web3AuthProvider in your app/layout.tsx file:
+
+```Typescript layout.tsx
+import { Web3AuthProvider } from '../components/Web3AuthProvider';
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="en">
+      <body>
+        <Web3AuthProvider>
+          {children}
+        </Web3AuthProvider>
+      </body>
+    </html>
+  )
+}
+```
+
+## Now you can use Web3Auth in your components. Here's an example of a login button:
+
+```bash
+"use client";
+import { useWeb3Auth } from '../components/Web3AuthProvider';
+import { useState, useEffect } from 'react';
+
+export default function LoginButton() {
+  const { web3auth } = useWeb3Auth();
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    if (web3auth) {
+      setLoggedIn(web3auth.connected);
+    }
+  }, [web3auth]);
+
+  const login = async () => {
+    if (!web3auth) {
+      console.log("web3auth not initialized yet");
+      return;
+    }
+    const web3authProvider = await web3auth.connect();
+    setLoggedIn(true);
+  };
+
+  const logout = async () => {
+    if (!web3auth) {
+      console.log("web3auth not initialized yet");
+      return;
+    }
+    await web3auth.logout();
+    setLoggedIn(false);
+  };
+
+  if (!web3auth) {
+    return <div>Loading...</div>;
+  }
+
+  if (loggedIn) {
+    return <button onClick={logout}>Log Out</button>;
+  }
+
+  return <button onClick={login}>Login with Web3Auth</button>;
+}
+```

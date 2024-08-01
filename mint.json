@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Starter Kit",
+  "name": "Jiffyscan Docs",
   "logo": {
     "dark": "/logo/dark.svg",
     "light": "/logo/light.svg"
@@ -22,8 +22,8 @@
     }
   ],
   "topbarCtaButton": {
-    "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+    "name": "Jiffyscan",
+    "url": "https://jiffyscan.xyz/"
   },
   "tabs": [
     {
@@ -35,37 +35,40 @@
     {
       "name": "Documentation",
       "icon": "book-open-cover",
-      "url": "https://t.me/JiffyScan"
+      "url": "https://jiffyscan.mintlify.app/"
     },
     {
       "name": "Community",
       "icon": "telegram",
-      "url": "https://mintlify.com/community"
+      "url": "https://t.me/JiffyScan"
     },
     {
       "name": "Blog",
       "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
+      "url": "https://medium.com/jiffylabs"
     }
   ],
   "navigation": [
     {
       "group": "Get Started",
       "pages": [
-        "introduction",
-        "quickstart",
-        "development"
+        "welcome",
+        "introduction"
       ]
     },
     {
-      "group": "Essentials",
+      "group": "Quickstart",
       "pages": [
-        "essentials/markdown",
-        "essentials/code",
-        "essentials/images",
-        "essentials/settings",
-        "essentials/navigation",
-        "essentials/reusable-snippets"
+        {
+          "group": "Quickstart: Auth",
+          "icon": "brackets-curly",
+          "pages": [
+            "Quickstart/privy",
+            "Quickstart/web3auth"
+          ]
+        },
+        "Quickstart/bundler",
+        "Quickstart/paymaster"
       ]
     },
     {
@@ -84,8 +87,8 @@
     }
   ],
   "footerSocials": {
-    "x": "https://x.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://www.linkedin.com/company/mintsearch"
+    "x": "https://x.com/JiffyScan",
+    "github": "https://github.com/jiffy-labs/",
+    "linkedin": "https://www.linkedin.com/company/jiffylabs/"
   }
 }

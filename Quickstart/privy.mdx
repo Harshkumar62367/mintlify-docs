@@ -1,0 +1,145 @@
+---
+title: 'Privy'
+description: 'Welcome to Quickstart Docs to setup your Auth provider using Privy'
+icon: 'recycle'
+---
+
+# Custom Privy Authentication Provider with Wagmi Integration
+
+This custom implementation combines Privy authentication with Wagmi for enhanced Web3 functionality in your Next.js application. It includes support for multiple chains, embedded wallets, and various login methods.
+
+## Installation
+
+To use this custom Privy provider in your project, you'll need to install the following packages:
+
+```bash
+npm install @privy-io/react-auth @privy-io/wagmi @tanstack/react-query viem wagmi
+```
+
+### Usage
+To use the Privy provider in your Next.js application, you'll need to wrap your app with the PrivyProvider component.
+First, create a new file called PrivyProvider.tsx in your project:
+
+```Typescript PrivyProvider.tsx
+
+"use client";
+import { PrivyClientConfig, PrivyProvider } from "@privy-io/react-auth";
+import { sepolia, polygonAmoy, polygon, fuse } from "viem/chains";
+import { WagmiProvider, createConfig } from "@privy-io/wagmi";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { http } from "wagmi";
+
+const handleLogin = (user: any) => {
+    console.log(`User ${user.id} logged in!`);
+};
+
+const wagmiConfig = createConfig({
+    chains: [fuse], //We are using fuse for this example
+    transports: {
+        [fuse.id]: http(),
+    },
+});
+
+const queryClient = new QueryClient();
+
+const privyConfig: PrivyClientConfig = {
+    embeddedWallets: {
+        createOnLogin: "users-without-wallets",
+        noPromptOnSignature: false,
+    },
+    loginMethods: ["wallet", "email", "google"],
+    appearance: {
+        showWalletLoginFirst: true,
+        theme: "light",
+        accentColor: "#676FFF",
+        logo: "https://jiffyscan-frontend.vercel.app/images/Frame%2021.svg",
+    },
+    supportedChains: [
+        sepolia,
+        polygonAmoy,
+        polygon,
+        fuse,
+        // Add any other supported chains here
+    ],
+};
+
+export const PrivyProvider = ({ children }: { children: React.ReactNode }) => {
+    return (
+        <PrivyProvider
+            appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID as string}
+            onSuccess={handleLogin}
+            config={privyConfig}
+        >
+            <QueryClientProvider client={queryClient}>
+                <WagmiProvider config={wagmiConfig} reconnectOnMount={false}>
+                    {children}
+                </WagmiProvider>
+            </QueryClientProvider>
+        </PrivyProvider>
+    );
+};
+
+```
+
+Then, in your app/layout.tsx file (for Next.js 13+ with App Router), wrap your app with the PrivyProvider:
+
+```Typescript layout.tsx
+
+import { PrivyProvider } from '../components/PrivyProviderA';
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="en">
+      <body>
+        <PrivyProviderA>
+          {children}
+        </PrivyProviderA>
+      </body>
+    </html>
+  )
+}
+```
+
+## Configuration Breakdown
+This custom implementation includes several important configurations:
+
+### Wagmi Configuration:
+
+Uses the Fuse chain
+Configures HTTP transport for Fuse
+
+
+### Privy Configuration:
+
+Embedded Wallets: Created for users without wallets
+Login Methods: Supports wallet, email, and Google login
+Appearance: Customized theme and logo
+Supported Chains: Includes Sepolia, Polygon Amoy, Polygon, and Fuse
+
+
+### React Query:
+
+Initializes a QueryClient for managing API requests
+
+
+### Usage Example
+Here's a simple example of how to use this custom Privy provider in a component:
+
+```bash
+"use client";
+import { usePrivy } from '@privy-io/react-auth';
+
+export default function LoginButton() {
+  const { login, authenticated, user } = usePrivy();
+
+  if (authenticated) {
+    return <p>Welcome, user {user.id}!</p>;
+  }
+
+  return <button onClick={login}>Login with Privy</button>;
+}
+```

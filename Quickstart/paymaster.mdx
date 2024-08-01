@@ -1,0 +1,58 @@
+---
+title: 'Paymaster'
+description: 'Welcome to Quickstart Docs to setup your Paymaster using Jiffyscan'
+icon: 'text-size'
+---
+
+# Setting up a Paymaster for Smart Account Transactions
+
+A Paymaster is a component that can sponsor gas fees for users, enabling gasless transactions in your dApp. This guide will show you how to set up and integrate the JiffyPaymaster in your application.
+
+## Prerequisites
+
+Before setting up the Paymaster, ensure you have:
+
+1. A Next.js project with Auth Provider Setup
+2. The necessary dependencies installed:
+
+   ```bash
+   npm install @jiffy-labs/web3a
+   ```
+## Configuration
+First, let's import the necessary modules and set up our configuration:
+
+```bash
+import { JiffyPaymaster } from "@jiffy-labs/web3a";
+
+const jiffyscanKey = process.env.NEXT_PUBLIC_JIFFYSCAN_API_KEY as string;
+const bundlerUrl = process.env.NEXT_PUBLIC_BUNDLER_URL as string;
+```
+
+### Creating the JiffyPaymaster Instance
+Now, let's create an instance of the JiffyPaymaster:
+
+```bash
+const jiffyPaymaster = new JiffyPaymaster(bundlerUrl, selectedChain.chain.id, {
+    "x-api-key": jiffyscanKey,
+});
+```
+
+
+### Integrating the Paymaster with Smart Account Client
+To use the Paymaster in your Smart Account transactions, integrate it into your Smart Account client configuration:
+
+
+```bash
+const smartAccountClient = createSmartAccountClient({
+    account: simpleSmartAccountClient,
+    entryPoint: ENTRYPOINT_ADDRESS_V06,
+    chain: selectedChain.chain,
+    bundlerTransport: bundlerTransport,
+    middleware: {
+        gasPrice: async () => (await bundlerClient.getUserOperationGasPrice()).fast,
+        sponsorUserOperation: jiffyPaymaster.sponsorUserOperationV6,
+    },
+});
+```
+
+By adding the sponsorUserOperation middleware and setting it to jiffyPaymaster.sponsorUserOperationV6, you're configuring your Smart Account client to use the JiffyPaymaster for sponsoring gas fees.
