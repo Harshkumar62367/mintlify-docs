@@ -67,6 +67,7 @@
             "Quickstart/web3auth"
           ]
         },
+        "Quickstart/jiffyscan",
         "Quickstart/bundler",
         "Quickstart/paymaster"
       ]
