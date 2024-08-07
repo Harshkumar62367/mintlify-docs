@@ -73,6 +73,55 @@
       ]
     },
     {
+      "group": "Products",
+      "pages": [
+        {
+          "group": "Bundler",
+          "icon": "brackets-curly",
+          "pages": [
+            "Products/Bundler/Overview",
+            "Products/Bundler/Getting started",
+            {
+              "group": "Bundler Errors",
+              "icon": "brackets-curly",
+              "pages":[
+                "Products/Bundler/Bundler-Errors/chain-unsupported"
+              ]
+            },
+            {
+              "group": "Entrypoint Errors",
+              "icon": "brackets-curly",
+              "pages":[
+                "Products/Bundler/Entrypoint-Errors/AA10",
+                "Products/BundlerEntrypoint-Errors/AA13",
+                "Products/BundlerEntrypoint-Errors/AA14",
+                "Products/BundlerEntrypoint-Errors/AA15"
+              ]
+            }
+          ]
+        },
+        {
+          "group": "Paymaster",
+          "icon": "brackets-curly",
+          "pages": [
+            "Products/Paymaster/Overview",
+            "Products/Paymaster/Getting started"
+          ]
+        },
+        "Products/Jiffyscan-Explorer"
+      ]
+    },
+    {
+      "group": "AA Concepts",
+      "pages": [
+        "AA-Core-Concepts/Overview",
+        "AA-Core-Concepts/Bundler",
+        "AA-Core-Concepts/Paymaster",
+        "AA-Core-Concepts/Entrypoint",
+        "AA-Core-Concepts/Aggregators"
+      ]
+    },
+    {
       "group": "API Documentation",
       "pages": [
         "api-reference/introduction"
