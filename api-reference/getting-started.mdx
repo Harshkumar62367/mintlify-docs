@@ -1,0 +1,39 @@
+
+A short intro on how to use the Jiffyscan API's
+
+## Authentication
+
+APIs are authenticated based on the header `x-api-key`. If you do not have an API key, get one from here https://dashboard.jiffyscan.xyz/ 
+
+## Sample Request
+
+Sample code to get the user operation data. You can use the following api key `TestApiKeyOnlyUseDashboardForProd` to try out the API from readme.
+
+```bash
+curl --location --request GET 'https://api.jiffyscan.xyz/v0/getUserOp?hash=0x9ff4f6b81a168b28016723cde6f6bdc60506b6f7a682b25438779d3e65c01b1c' --header 'x-api-key: <API_KEY>'
+```
+
+## Supported Networks
+
+The following are the networks we currently support and their respective query parameter to be used in requests.
+
+| Network | Query Param |
+| :--- | ---:|
+| Ethereum Mainnet | `mainnet` |
+| Ethereum Goerli | `goerli` |
+| Ethereum Sepolia | `sepolia` |
+| Polygon Mainnet | `matic` |
+| Polygon Mumbai | `mumbai` |
+| Optimism Mainnet | `optimism` |
+| Optimism Goerli | `optimism-goerli` |
+| Arbitrum One | `arbitrum-one` |
+| Arbitrum Georli | `arbitrum-goerli` |
+| Binance Smart Chain Mainnet ( BSC ) | `bsc` |
+| Avalanche Mainnet | `avalanche` |
+| Avalanche Fuji (Testnet) | `avalanche-testnet` |
+| Fantom Mainnet | `fantom` |
+| Fantom Testnet | `fantom-testnet` |
+| Base | `base` |
+| Base Testnet | `base-testnet` |
+| Gnosis Mainnet | `gnosis` |
+| Fuse | `fuse` |
