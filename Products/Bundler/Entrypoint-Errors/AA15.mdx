@@ -1,0 +1,16 @@
+---
+title: "Error AA15: InitCode Must Create Sender"
+---
+
+The smart account deployment process with `initCode` fails to return a `sender` address. Possible causes:
+
+1. The `initCode` factory isn't creating an account
+2. The factory creates an account but doesn't return the deployed `sender` address
+
+## Potential Fixes
+
+1. Verify the factory address in `initCode` (first 20 bytes of initcode)
+2. Ensure correct implementation of the `initCode` factory
+3. If problems continue, debug the `initCode` factory using [Tenderly](https://tenderly.co/)
+
+Addressing these issues should resolve the AA15 error and ensure proper creation of the sender address.

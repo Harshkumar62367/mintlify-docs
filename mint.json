@@ -1,18 +1,14 @@
 {
   "$schema": "https://mintlify.com/schema.json",
   "name": "Jiffyscan Docs",
-  "logo": {
-    "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
-  },
   "favicon": "/favicon.svg",
   "colors": {
-    "primary": "#0D9373",
-    "light": "#07C983",
-    "dark": "#0D9373",
+    "primary": "#FF9800",
+    "light": "#FF9800",
+    "dark": "#FF9800",
     "anchors": {
-      "from": "#0D9373",
-      "to": "#07C983"
+      "from": "#FF9800",
+      "to": "#FF9800"
     }
   },
   "topbarLinks": [
@@ -67,22 +63,131 @@
             "Quickstart/web3auth"
           ]
         },
+        "Quickstart/jiffyscan",
         "Quickstart/bundler",
         "Quickstart/paymaster"
       ]
     },
     {
-      "group": "API Documentation",
+      "group": "Products",
       "pages": [
-        "api-reference/introduction"
+        {
+          "group": "Bundler",
+          "icon": "brackets-curly",
+          "pages": [
+            "Products/Bundler/Overview",
+            "Products/Bundler/Getting-started",
+            {
+              "group": "Bundler Errors",
+              "icon": "brackets-curly",
+              "pages":[
+                "Products/Bundler/Bundler-Errors/chain-unsupported"
+              ]
+            },
+            {
+              "group": "Entrypoint Errors",
+              "icon": "brackets-curly",
+              "pages":[
+                "Products/Bundler/Entrypoint-Errors/AA10",
+                "Products/Bundler/Entrypoint-Errors/AA13",
+                "Products/Bundler/Entrypoint-Errors/AA14",
+                "Products/Bundler/Entrypoint-Errors/AA15",
+                "Products/Bundler/Entrypoint-Errors/AA20",
+                "Products/Bundler/Entrypoint-Errors/AA21"
+              ]
+            }
+          ]
+        },
+        {
+          "group": "Paymaster",
+          "icon": "brackets-curly",
+          "pages": [
+            "Products/Paymaster/Overview",
+            "Products/Paymaster/Getting-started"
+          ]
+        }
+        
       ]
     },
     {
-      "group": "Endpoint Examples",
+      "group": "AA Concepts",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
+        "AA-Core-Concepts/Overview",
+        "AA-Core-Concepts/Bundler",
+        "AA-Core-Concepts/Paymaster",
+        "AA-Core-Concepts/Entrypoint",
+        "AA-Core-Concepts/Aggregators"
+      ]
+    },
+    {
+      "group": "API Documentation",
+      "pages": [
+        "api-reference/introduction",
+        "api-reference/getting-started"
+      ]
+    },
+    {
+      "group": "Data API",
+      
+      "pages": [
+        {
+          "group": "Supported Networks",
+          "pages":[
+            "api-reference/data-api-endpoint/supported-networks/get-getnetworks"
+          ]
+        },
+        {
+          "group": "User Operations",
+          "pages": [
+            "api-reference/data-api-endpoint/user-operations/get-getlatestuserops",
+            "api-reference/data-api-endpoint/user-operations/get-getpaymasteractivity",
+            "api-reference/data-api-endpoint/user-operations/get-getuserop",
+            "api-reference/data-api-endpoint/user-operations/get-getbundleactivity",
+            "api-reference/data-api-endpoint/user-operations/get-getuseroplogs",
+            "api-reference/data-api-endpoint/user-operations/get-getlogfromindex",
+            "api-reference/data-api-endpoint/user-operations/get-getblockactivity",
+            "api-reference/data-api-endpoint/user-operations/get-getuseropmetadata",
+            "api-reference/data-api-endpoint/user-operations/get-getuseropmetadata"
+          ]
+        },
+        {
+          "group": "Factory",
+          "pages": [
+            "api-reference/data-api-endpoint/factory/get-getfactorydetails",
+            "api-reference/data-api-endpoint/factory/get-gettopfactories"
+          ]
+        },
+        {
+          "group": "Bundler",
+          "pages": [
+            "api-reference/data-api-endpoint/bundler/get-getlatestbundles",
+            "api-reference/data-api-endpoint/bundler/get-gettopbundlers",
+            "api-reference/data-api-endpoint/bundler/get-getbundleractivity"
+          ]
+        },
+        {
+          "group": "Account",
+          "pages": [
+            "api-reference/data-api-endpoint/account/get-getaddressactivity",
+            "api-reference/data-api-endpoint/account/get-getaddressbalances",
+            "api-reference/data-api-endpoint/account/get-getaddressnfttransfers",
+            "api-reference/data-api-endpoint/account/get-getaddresstransactions",
+            "api-reference/data-api-endpoint/account/get-getaddresserc20transfers",
+            "api-reference/data-api-endpoint/account/get-getaddressaggregatedata"
+          ]
+        },
+        {
+          "group": "Metrics",
+          "pages": [
+            "api-reference/data-api-endpoint/metrics/get-getdailymetrics"
+          ]
+        },
+        {
+          "group": "Paymaster",
+          "pages": [
+            "api-reference/data-api-endpoint/paymaster/get-gettoppaymasters"
+          ]
+        }
       ]
     }
   ],

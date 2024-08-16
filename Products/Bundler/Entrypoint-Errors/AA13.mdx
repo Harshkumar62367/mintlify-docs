@@ -1,0 +1,20 @@
+---
+title: "Error AA13: InitCode Execution Failed or Insufficient Gas"
+---
+
+<Note>OOG = Out Of Gas</Note>
+
+
+The EntryPoint couldn't create the smart account using the provided `initCode`. This could be due to:
+
+1. Gas depletion during `initCode` execution
+2. `initCode` reverting during account setup
+
+## Potential Fixes
+
+1. Ensure the factory address in `initCode` is accurate (first 20 bytes of `initCode`)
+2. Confirm `initCode` correctness
+3. Verify if `verificationGasLimit` is sufficient for `initCode` completion
+4. For reverts, investigate the `initCode` execution using debugging tools like [Tenderly](https://tenderly.co/)
+
+By addressing these potential issues, you can resolve the AA13 error and successfully execute the `initCode`.
