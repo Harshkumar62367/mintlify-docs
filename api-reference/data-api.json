@@ -38,13 +38,8 @@
     ],
     "servers": [
         {
-            "url": "https://api.jiffyscan.xyz/{basePath}",
-            "variables": {
-                "basePath": {
-                    "default": "v0",
-                    "description": "Enter ` v0 ` here if no value is present"
-                }
-            }
+            "url": "https://api.jiffyscan.xyz/v0"
+            
         }
     ],
     "paths": {

@@ -1,0 +1,15 @@
+---
+title: "Error AA14: InitCode Must Return Sender"
+---
+
+
+The smart account address deployed via `initCode` doesn't match the `sender` address in the user operation.
+
+## Potential Fixes
+
+1. Ensure `initCode` accuracy
+2. Verify that the `sender` address is deterministically generated from `initCode` (consider using [getSenderAddress](/permissionless/reference/public-actions/getSenderAddress))
+3. Check the factory address in `initCode` (first 20 bytes). 
+4. If issues persist, investigate `initCode` deployment using [Tenderly](https://tenderly.co/)
+
+By ensuring the correct generation and matching of addresses, you can resolve the AA14 error.

@@ -1,18 +1,14 @@
 {
   "$schema": "https://mintlify.com/schema.json",
   "name": "Jiffyscan Docs",
-  "logo": {
-    "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
-  },
   "favicon": "/favicon.svg",
   "colors": {
-    "primary": "#0D9373",
-    "light": "#07C983",
-    "dark": "#0D9373",
+    "primary": "#FF9800",
+    "light": "#FF9800",
+    "dark": "#FF9800",
     "anchors": {
-      "from": "#0D9373",
-      "to": "#07C983"
+      "from": "#FF9800",
+      "to": "#FF9800"
     }
   },
   "topbarLinks": [
@@ -95,7 +91,9 @@
                 "Products/Bundler/Entrypoint-Errors/AA10",
                 "Products/Bundler/Entrypoint-Errors/AA13",
                 "Products/Bundler/Entrypoint-Errors/AA14",
-                "Products/Bundler/Entrypoint-Errors/AA15"
+                "Products/Bundler/Entrypoint-Errors/AA15",
+                "Products/Bundler/Entrypoint-Errors/AA20",
+                "Products/Bundler/Entrypoint-Errors/AA21"
               ]
             }
           ]

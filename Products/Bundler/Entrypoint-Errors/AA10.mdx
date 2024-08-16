@@ -1,0 +1,18 @@
+---
+title: "Error AA10: Sender Already Established"
+---
+
+The smart account (sender) has been previously set up. You might be attempting to initialize the account more than once.
+
+## Potential Fix
+
+Eliminate the `initCode` from the user operation:
+
+```typescript
+const operationHash = await bundler.submitUserOp({
+    // Remove this line
+    // initCode: "0xd74a8b63df73223fcc89f604d6738e66719dbc...",
+    // Add this line instead
+    initCode: "0x",
+    // Other user operation details...
+})

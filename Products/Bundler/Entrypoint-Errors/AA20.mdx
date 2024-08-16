@@ -1,0 +1,13 @@
+---
+title: "Error AA20: Account Not Deployed"
+description: "Resolving issues when the sender account is not deployed"
+---
+
+No `initCode` was specified, but the `sender` address (smart account) isn't deployed.
+
+## Potential Fixes
+
+1. For first-time transactions, include `initCode` in the user operation
+2. If the account should already exist, double-check the `sender` address in the user operation
+
+Ensuring the correct deployment status and address of the sender account will resolve the AA20 error.
