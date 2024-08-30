@@ -39,7 +39,6 @@
     "servers": [
         {
             "url": "https://api.jiffyscan.xyz/v0"
-            
         }
     ],
     "paths": {
@@ -223,7 +222,7 @@
                 ],
                 "security": [
                     {
-                        "api_key": []
+                        "BasicAuth": []
                     }
                 ],
                 "responses": {
@@ -272,7 +271,7 @@
                 ],
                 "security": [
                     {
-                        "api_key": []
+                        "BasicAuth": []
                     }
                 ],
                 "responses": {
@@ -353,15 +352,15 @@
                 ],
                 "security": [
                     {
-                        "api_key": []
+                        "BasicAuth": []
                     }
                 ],    
                 "responses": {
                     "200": {
                         "description": "200 response",
                         "headers": {
-                            "Access-Control-Allow-Origin": {
-                                "schema": {
+                            "Access-Control-Allow-Origin": { 
+                                "schema": { 
                                     "type": "string"
                                 }
                             },
@@ -1572,7 +1571,7 @@
                 "security": [
                     {
                         "BasicAuth": []
-
+                        
                     }
                 ]
             }
