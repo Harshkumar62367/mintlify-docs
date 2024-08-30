@@ -1,0 +1,52 @@
+---
+title: "AA23: ValidateUserOp Function Failure"
+description: "Troubleshooting validateUserOp execution issues"
+---
+
+<Note>Note: OOG = "Out Of Gas"</Note>
+
+The smart account's `validateUserOp` function encountered an issue:
+
+- It may have reverted unexpectedly
+- It may have exhausted its gas allocation
+
+## Troubleshooting Steps
+
+1.  Gas Limit Check:
+
+    - Increase the `verificationGasLimit` to cover `validateUserOp` costs, if it is less.
+
+2.  Logic Verification:
+
+    - Review `validateUserOp` implementation
+    - Confirm the user operation's validity
+
+3.  For Non-Paymaster Scenarios:
+
+    - Verify sufficient native tokens in the `sender` address:
+
+    ```typescript
+    const neededFunds = calculateRequiredPrefund({ userOperation });
+    const accountBalance = await client.getBalance({
+      address: userOperation.sender,
+    });
+    if (accountBalance < neededFunds) {
+      throw new Error("Insufficient funds in sender account");
+    }
+    ```
+
+4.  For Paymaster Usage: - Ensure paymasterAndData is properly set:
+
+    ```typescript
+    const opHash = await bundler.sendUserOp({
+        paymasterAndData: "0x3b912be0270b59143985cc5c6aab452d99e2b4bb0000000000000000000000000000000000000000000000000000000064c0957400000000000000000000000000000000000000000000000000000000000000007d99385d8ef0af67affbf9944df8c121e9d1f6aef8dd82a4aeb5db310c42d3dc5b51c9e0835d94c3b22564d3d94f0e1d14e37571e46651da8de567d128a361a01b",
+        // Additional operation details...
+    })
+    ```
+5. Signature Verification:
+    - Ensure your implementation doesn't revert for invalid signatures
+    - For non-time-sensitive operations, return `uint(1)` for invalid signatures
+
+
+6. Advanced Debugging:
+    - Utilize tools like [Tenderly](https://tenderly.co/) for in-depth analysis

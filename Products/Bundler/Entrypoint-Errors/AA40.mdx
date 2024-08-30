@@ -1,0 +1,18 @@
+---
+title: "AA40: Verification Gas Limit Exceeded"
+description: "Addressing gas limit issues in account and paymaster verification"
+---
+
+
+The gas consumed during smart account and paymaster verification surpassed the `verificationGasLimit` set for the user operation.
+
+## Resolution Strategies
+
+1. Gas Limit Adjustment:
+   - Increase the `verificationGasLimit` to accommodate the actual gas usage
+
+2. For Bundler Provider Users:
+   - If using `eth_estimateUserOperationGas` or `pm_sponsorUserOperation` (e.g., from JiffyScan) and encountering this error, [contact their support](https://t.me/JiffyScan)
+
+3. Advanced Analysis:
+   - Investigate unexpected gas usage with tools like [Tenderly](https://tenderly.co/).

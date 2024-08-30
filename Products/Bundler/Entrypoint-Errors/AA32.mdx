@@ -1,0 +1,30 @@
+---
+title: "AA32: Paymaster Signature Timing Mismatch"
+description: "Resolving time-related issues with paymaster signatures"
+---
+
+<Note>
+  Note: Jiffyscan's verifying paymaster signatures are valid for 10 minutes by default.
+</Note>
+
+The paymaster signature in your `paymasterAndData` field is invalid due to a timing mismatch. This occurs when:
+
+- The current `block.timestamp` exceeds the `validUntil` time
+- The current `block.timestamp` is earlier than the `validAfter` time
+
+These constraints are derived from the `validationData` returned by the paymaster's `validatePaymasterUserOp` function.
+
+## Resolution Strategies
+
+1. For Custom Paymaster Contracts with Time-Based Signatures:
+   - Verify `validAfter` and `validUntil` settings
+   - Ensure operation submission within the specified timeframe
+
+2. For Custom Paymaster Contracts without Time-Based Signatures:
+   - Set both `validAfter` and `validUntil` to `0`
+
+3. When Using Jiffyscan's Verifying Paymaster:
+   - Submit the operation within 10 minutes of receiving the paymaster signature
+   - For extended validity periods, [contact Jiffyscan support](https://t.me/JiffyScan)
+
+By addressing these timing aspects, you'll resolve the AA32 error and ensure smooth paymaster signature validation.

@@ -1,0 +1,21 @@
+---
+title: "AA93: Invalid PaymasterAndData Format"
+description: "Addressing formatting issues in the paymasterAndData field"
+---
+
+
+<Note>
+  The paymaster contract address is specified in the first 20 bytes of `paymasterAndData`.
+</Note>
+
+
+The `paymasterAndData` field in your user operation has an incorrect length.
+
+## Resolution Strategies
+
+1. Field Formatting:
+   - Ensure `paymasterAndData` is either not set or at least 20 bytes long
+
+2. For Paymaster Service Users:
+   - If using a provider like JiffyScan and encountering this error, [contact their support team](https://t.me/JiffyScan)
+

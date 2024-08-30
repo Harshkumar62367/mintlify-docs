@@ -1,0 +1,32 @@
+---
+title: "AA25: Nonce Mismatch"
+description: "Addressing invalid nonce issues in user operations"
+---
+
+The `nonce` provided in your user operation is invalid.
+
+## Resolution Strategies
+
+1. Nonce Verification:
+   - Ensure you're using the correct current nonce for the smart account and selected `key`
+   - Consider using [`getAccountNonce`](/permissionless/reference/public-actions/getAccountNonce)
+
+2. Common Pitfalls:
+   - Avoid reusing previously used nonces
+   - Don't use nonces too far in the future (no more than 10 ahead of current nonce)
+
+3. Formatting Check:
+   - Verify correct nonce format
+
+4. Parallel Transaction Handling:
+   - For concurrent operations, utilize custom nonce `key`
+   - Refer to [Parallel Transaction Guide](/permissionless/how-to/parallel-transactions##sending-multiple-transactions-in-parallel)
+
+<Note>
+Nonce Structure:
+The EntryPoint uses a 256-bit nonce, split into:
+- 192-bit `key`
+- 64-bit `sequence`
+Each `key` has its own sequential `sequence`, allowing new `key` introduction with arbitrary values.
+</Note>
+

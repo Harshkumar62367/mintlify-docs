@@ -1,0 +1,31 @@
+---
+title: "Error AA21: Prefund Payment Failure"
+description: "Handling insufficient native tokens for gas costs"
+---
+
+Without a paymaster, the `sender` address lacks sufficient native tokens for the user operation's gas costs.
+
+## Potential Fixes
+
+1. If not using a paymaster, ensure the `sender` has enough native tokens. Use functions like [`getRequiredPrefund`](/permissionless/reference/utils/getRequiredPrefund):
+
+```typescript
+const neededPrefund = getRequiredPrefund({
+    userOperation
+})
+const accountBalance = await public.fetchBalance({
+    address: userOperation.sender
+})
+if (accountBalance < neededPrefund) {
+    throw new Error(`Insufficient native tokens in sender address`)
+}
+```
+
+2. To use a paymaster for gas fees, set the paymasterAndData field:
+
+```typescript
+const operationHash = await bundler.submitUserOp({
+    paymasterAndData: "0x3b912be0270b59143985cc5c6aab452d99e2b4bb0000000000000000000000000000000000000000000000000000000064c0957400000000000000000000000000000000000000000000000000000000000000007d99385d8ef0af67affbf9944df8c121e9d1f6aef8dd82a4aeb5db310c42d3dc5b51c9e0835d94c3b22564d3d94f0e1d14e37571e46651da8de567d128a361a01b",
+    // Other user operation details...
+})
+```

@@ -1,0 +1,17 @@
+---
+title: "AA92: Incorrect EntryPoint Function Call"
+description: "Resolving issues with bundler's EntryPoint interaction"
+---
+
+The bundler incorrectly attempted to call the EntryPoint's `innerHandleOp` function directly, bypassing the intended `handleOps` function.
+
+## Resolution Checklist
+
+1. For Self-Hosted Bundlers:
+   - Review your bundler's interaction with the EntryPoint
+   - Ensure all calls are routed through the `handleOps` function
+
+2. For Third-Party Bundler Services:
+   - If using a provider like JiffyScan, [contact their technical support](https://t.me/JiffyScan)
+
+By correcting the EntryPoint interaction, you should be able to resolve the AA92 error and ensure proper operation handling.
