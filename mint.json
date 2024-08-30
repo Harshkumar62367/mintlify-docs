@@ -157,7 +157,6 @@
             "api-reference/data-api-endpoint/user-operations/get-getuseroplogs",
             "api-reference/data-api-endpoint/user-operations/get-getlogfromindex",
             "api-reference/data-api-endpoint/user-operations/get-getblockactivity",
-            "api-reference/data-api-endpoint/user-operations/get-getuseropmetadata",
             "api-reference/data-api-endpoint/user-operations/get-getuseropmetadata"
           ]
         },
@@ -197,6 +196,14 @@
           "group": "Paymaster",
           "pages": [
             "api-reference/data-api-endpoint/paymaster/get-gettoppaymasters"
+          ]
+        },
+        {
+          "group": "Webhook",
+          "pages": [
+            "api-reference/data-api-endpoint/get-createwebhook",
+            "api-reference/data-api-endpoint/get-listwebhooks",
+            "api-reference/data-api-endpoint/get-deletewebhook"
           ]
         }
       ]
