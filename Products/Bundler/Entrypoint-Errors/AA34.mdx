@@ -1,0 +1,25 @@
+---
+title: "AA34: Paymaster Signature Validation Failure"
+description: "Resolving paymaster signature rejection issues"
+---
+
+<Note>
+  The paymaster contract address is specified in the first 20 bytes of `paymasterAndData`.
+</Note>
+
+The paymaster's `validatePaymasterUserOp` function has rejected the user operation's signature.
+
+## Resolution Checklist
+
+1. For Custom Paymaster Contracts:
+   - Verify correct signing of the user operation
+   - Ensure proper encoding of the paymaster signature in `paymasterAndData`
+   - Confirm correct computation of the custom operation hash
+   - Review the signature verification logic in your paymaster
+
+2. For Third-Party Paymaster Services (e.g., JiffyScan):
+   - Avoid modifying user operation fields after paymaster signing (except `signature`)
+   - If unmodified but still encountering errors, [contact their support](https://t.me/JiffyScan)
+
+3. Advanced Troubleshooting:
+   - Employ [Tenderly](https://tenderly.co/) or similar tools to investigate `validatePaymasterUserOp` behavior

@@ -1,0 +1,37 @@
+---
+title: "AA33: Paymaster Validation Function Failure"
+description: "Troubleshooting validatePaymasterUserOp execution issues"
+---
+
+<Note>
+  Note: OOG = "Out Of Gas"
+</Note>
+
+The paymaster's `validatePaymasterUserOp` function encountered an issue:
+- It may have reverted unexpectedly
+- It may have exhausted its gas allocation
+
+## Troubleshooting Steps
+
+1. Gas Limit Check:
+   - Increase the `verificationGasLimit` to cover `validatePaymasterUserOp` costs
+
+2. For Custom Paymaster Contracts:
+   - Review `validatePaymasterUserOp` implementation
+   - Ensure proper signature verification logic (avoid reverting for invalid signatures)
+   - For non-time-based signatures, return `uint(1)` for invalid signatures
+
+3. For Third-Party Paymaster Services:
+   - If using JiffyScan and encountering issues, [contact their support](https://t.me/JiffyScan)
+
+4. When Not Using a Paymaster:
+   - Ensure the `paymasterAndData` field is not set:
+
+   ```typescript
+   const opHash = await bundler.sendUserOp({
+     paymasterAndData: "0x",
+     // Additional operation details...
+   })
+   ```
+5. Advanced Debugging:
+    - Utilize tools like Tenderly for in-depth analysis

@@ -1,0 +1,23 @@
+---
+title: "AA50: Paymaster PostOp Reversion"
+description: "Addressing issues with paymaster's postOp function"
+---
+
+<Note>
+  The `postOp` function is called by the EntryPoint on the paymaster contract after user operation execution, often used for additional accounting logic.
+</Note>
+
+The paymaster contract's `postOp` function has reverted unexpectedly.
+
+## Resolution Strategies
+
+1. For Custom Paymaster Contracts:
+   - Review and correct the `postOp` function implementation
+   - If not using `postOp`, ensure the `context` parameter is not set in `validatePaymasterUserOp`
+
+2. For Third-Party Paymaster Services:
+   - If using a service like JiffyScan and encountering this error, [contact their support](https://t.me/JiffyScan)
+
+3. Advanced Troubleshooting:
+   - Investigate `postOp` reversion causes using tools like [Tenderly](https://tenderly.co/)
+

@@ -1,0 +1,22 @@
+---
+title: "AA31: Insufficient Paymaster Funds"
+---
+
+<Note>
+The paymaster contract address is specified in the first 20 bytes of `paymasterAndData`.
+</Note>
+
+The specified paymaster contract lacks sufficient funds in the EntryPoint contract to cover the required prefund for your user operation.
+
+## Resolution Strategies
+
+1. Paymaster Address Verification:
+   - Double-check the accuracy of the `paymasterAndData` field
+   - Ensure the first 20 bytes correctly represent your intended paymaster contract address
+
+2. For Self-Managed Paymasters:
+   - Increase the deposit in the EntryPoint contract
+   - Use the paymaster contract's `deposit()` function to add funds
+
+3. For Third-Party Paymaster Services:
+   - Reach out to the respective team, if you are using Jiffyscan, [reach out to us](https://t.me/JiffyScan)

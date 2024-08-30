@@ -1,0 +1,21 @@
+---
+title: "AA30: Missing Paymaster Contract"
+description: "Resolving issues with non-existent paymaster contracts"
+---
+
+
+<Note>
+The paymaster contract address is specified in the first 20 bytes of `paymasterAndData`.
+</Note>
+
+The system cannot locate the specified paymaster contract at the provided address.
+
+## Resolution Steps
+
+1. Paymaster Data Verification:
+   - Confirm the accuracy of the `paymasterAndData` field
+   - Ensure the first 20 bytes correctly represent your intended paymaster contract address
+
+2. Network Deployment Check:
+   - Verify that the paymaster contract is actually deployed on your target network
+

@@ -1,0 +1,27 @@
+---
+title: "AA22: Time-Based Signature Mismatch"
+description: "Addressing timestamp-related signature issues in user operations"
+---
+
+Your user operation's signature is invalid due to a timestamp mismatch. This occurs when:
+
+- The current `block.timestamp` is later than the `validUntil` time
+- The current `block.timestamp` is earlier than the `validAfter` time
+
+These time constraints are derived from the `validationData` (a `bytes32` field) returned by the smart account's `validateUserOp` function.
+
+## Resolution Strategies
+
+1. For Time-Sensitive Operations:
+   - Double-check your `validAfter` and `validUntil` settings
+   - Ensure your operation is submitted within the specified timeframe
+
+2. For Standard Operations:
+   - Set both `validAfter` and `validUntil` to `0`
+
+<Note>
+Pro Tip: For non-time-sensitive operations without aggregators, simplify your `validateUserOp` function:
+- Return `uint(0)` for valid signatures
+- Return `uint(1)` for invalid signatures
+</Note>
+

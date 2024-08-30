@@ -1,0 +1,25 @@
+---
+title: "AA24: Signature Validation Failure"
+description: "Resolving signature rejection issues in validateUserOp"
+---
+
+The smart account's `validateUserOp` function has rejected the user operation's signature.
+
+## Resolution Checklist
+
+1. Signature Accuracy:
+   - Verify correct signing of the user operation
+   - Ensure proper encoding in the `signature` field
+
+2. UserOpHash Computation:
+   - Confirm correct calculation of `userOpHash`
+   - Consider using [`getUserOperationHash`](/permissionless/reference/utils/getUserOperationHash)
+
+3. Chain and EntryPoint Verification:
+   - Double-check `chainId` and `entryPointAddress` in `userOpHash` computation
+
+4. Smart Account Implementation:
+   - Review the signature verification logic in your smart account
+
+5. Advanced Troubleshooting:
+   - Employ [Tenderly](https://tenderly.co/) or similar tools to investigate `validateUserOp` behavior
