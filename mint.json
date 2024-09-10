@@ -148,6 +148,14 @@
           ]
         },
         {
+          "group": "Webhook",
+          "pages": [
+            "api-reference/data-api-endpoint/get-createwebhook",
+            "api-reference/data-api-endpoint/get-listwebhooks",
+            "api-reference/data-api-endpoint/get-deletewebhook"
+          ]
+        },
+        {
           "group": "User Operations",
           "pages": [
             "api-reference/data-api-endpoint/user-operations/get-getlatestuserops",
@@ -197,15 +205,8 @@
           "pages": [
             "api-reference/data-api-endpoint/paymaster/get-gettoppaymasters"
           ]
-        },
-        {
-          "group": "Webhook",
-          "pages": [
-            "api-reference/data-api-endpoint/get-createwebhook",
-            "api-reference/data-api-endpoint/get-listwebhooks",
-            "api-reference/data-api-endpoint/get-deletewebhook"
-          ]
         }
+        
       ]
     }
   ],

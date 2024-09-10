@@ -201,7 +201,7 @@
             }
         },
         "/deleteWebhook": {
-            "get": {
+            "delete": {
                 "parameters": [
                     {
                         "name": "webhookId",
@@ -210,7 +210,8 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "1725047729471"
+                        "example": "1725047729471",
+                        "description": "Webhook ID that you have already created"
                     },
                     {
                         "name": "apiName",
@@ -219,7 +220,8 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "major_toad_purple"
+                        "example": "major_toad_purple",
+                        "description": "The name of the API to delete the webhook for"
                     }
                 ],
                 "security": [
@@ -269,7 +271,8 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "major_toad_purple"
+                        "example": "major_toad_purple",
+                        "description": "The name of the API to list webhooks for"
                     }
                 ],
                 "security": [
@@ -319,7 +322,8 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "https://k29vom2r9g.execute-api.ap-south-1.amazonaws.com/default/testHook"
+                        "example": "https://k29vom2r9g.execute-api.ap-south-1.amazonaws.com/default/testHook",
+                        "description": "The URL to which the webhook should send the data"
                     },
                     {
                         "name": "filter",
@@ -328,7 +332,8 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "ADDRESS"
+                        "example": "ADDRESS",
+                        "description": "The filter to apply to the webhook. Must be one of: `ADDRESS`, `FACTORY`, `BUNDLER`, `PAYMASTER`"
                     },
                     {
                         "name": "identifier",
@@ -337,7 +342,8 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "0x2C7F4f563239ed04CC162fAC86e6FADCe561dca1"
+                        "example": "0x2C7F4f563239ed04CC162fAC86e6FADCe561dca1",
+                        "description": "The identifier to filter on, i.e. ADDRESS"
                     },
                     {
                         "name": "chainId",
@@ -346,7 +352,8 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "8453"
+                        "example": "8453",
+                        "description": "The chainId to filter on, i.e. 1 for Ethereum, 8453 for Base ..."
                     },
                     {
                         "name": "apiName",
@@ -355,7 +362,8 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "major_toad_purple"
+                        "example": "major_toad_purple",
+                        "description": "The name of the API to create the webhook for"
                     }
                 ],
                 "security": [
