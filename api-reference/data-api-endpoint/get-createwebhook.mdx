@@ -1,4 +1,56 @@
 ---
-title: 'Create Webhook'
+title: "Create Webhook"
 openapi: get /createWebhook
 ---
+
+## Creating a Webhook with JiffyScan API
+
+### Sample Curl Request
+
+```bash
+
+curl --request GET \
+  --url 'https://api.jiffyscan.xyz/v0/createWebhook?webhookUrl=<URL to which the webhook should send the data> \
+  &filter=ADDRESS \
+  &identifier=0x5CCeC8AA262cB4729a2d4FF7B15b03BdeeA44DC2 \
+  &chainId=8453 \
+  &apiName=TestWebHook' \
+  --header 'x-api-key: <Your Jiffyscan API Key>'
+
+```
+
+### Sample Response when success
+
+```json
+200 - response
+
+{
+    "webhook":{
+        "apiName":"TestWebHook",
+        // A custom name or identifier for the API by using which API is created (in this case, it's set to "TestWebHook")
+
+        "webhookUrl":"https://381b-2402-a00-1b0-fc1-950c-f59e-1e40-ad90.ngrok-free.app",
+        // The URL of the API endpoint that will receive webhook notifications. We are using a sample Ngrok url here to expose our local ports
+
+        "filter":"ADDRESS",
+        // The type of filter applied to the webhook (in this case, it's filtering by address)
+
+        "chainId":"8453",
+        // The Chain ID of the blockchain network the webhook is monitoring (8453 corresponds to Base Network )
+
+        "identifier":"0x5CCeC8AA262cB4729a2d4FF7B15b03BdeeA44DC2",
+        // The specific address being monitored by this webhook
+
+        "id":"1725944496899",
+        // A unique identifier for this webhook instance
+
+        "createdAt":"2024-09-10T05:01:36.900Z"
+        // The timestamp when this webhook was created (in UTC)
+
+        },
+    "success":true
+    // Indicates that the webhook was successfully created
+
+    }
+
+```

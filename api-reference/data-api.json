@@ -201,7 +201,7 @@
             }
         },
         "/deleteWebhook": {
-            "get": {
+            "delete": {
                 "parameters": [
                     {
                         "name": "webhookId",
@@ -209,7 +209,8 @@
                         "required": true,
                         "schema": {
                             "type": "string"
-                        }
+                        },
+                        "description": "Webhook ID that you have already created"
                     },
                     {
                         "name": "apiName",
@@ -217,7 +218,8 @@
                         "required": true,
                         "schema": {
                             "type": "string"
-                        }
+                        },
+                        "description": "The name of the API to delete the webhook for"
                     }
                 ],
                 "security": [
@@ -266,7 +268,8 @@
                         "required": true,
                         "schema": {
                             "type": "string"
-                        }
+                        },
+                        "description": "The name of the API to list webhooks for"
                     }
                 ],
                 "security": [
@@ -315,7 +318,8 @@
                         "required": true,
                         "schema": {
                             "type": "string"
-                        }
+                        },
+                        "description": "The URL to which the webhook should send the data"
                     },
                     {
                         "name": "filter",
@@ -323,7 +327,8 @@
                         "required": true,
                         "schema": {
                             "type": "string"
-                        }
+                        },
+                        "description": "The filter to apply to the webhook. Must be one of: ADDRESS, FACTORY, BUNDLER, PAYMASTER"
                     },
                     {
                         "name": "identifier",
@@ -331,7 +336,8 @@
                         "required": true,
                         "schema": {
                             "type": "string"
-                        }
+                        },
+                        "description": "The identifier to filter on, i.e. ADDRESS"
                     },
                     {
                         "name": "chainId",
@@ -339,7 +345,8 @@
                         "required": true,
                         "schema": {
                             "type": "string"
-                        }
+                        },
+                        "description": "The chainId to filter on, i.e. 1 for Ethereum, 8453 for Base ..."
                     },
                     {
                         "name": "apiName",
@@ -347,7 +354,8 @@
                         "required": true,
                         "schema": {
                             "type": "string"
-                        }
+                        },
+                        "description": "The name of the API to create the webhook for"
                     }
                 ],
                 "security": [
