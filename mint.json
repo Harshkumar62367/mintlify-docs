@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Jiffyscan Docs",
+  "name": "JiffyLabs Docs",
   "favicon": "/favicon.svg",
   "colors": {
     "primary": "#FF9800",

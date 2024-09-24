@@ -1963,7 +1963,8 @@
 
                 "parameters": [
                     {
-                        "name": "address",
+                        "name": "block number",
+                        "description": "Block number to get user operations present in the block",
                         "in": "query",
                         "required": true,
                         "schema": {
