@@ -64,7 +64,8 @@
         },
         "Quickstart/jiffyscan",
         "Quickstart/bundler",
-        "Quickstart/paymaster"
+        "Quickstart/paymaster",
+        "migration"
       ]
     },
     {
