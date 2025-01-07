@@ -1,0 +1,101 @@
+---
+title: 'Data API Migration'
+description: 'Provides options to migrate away from Jiffyscan APIs.'
+---
+
+# Migration Guide: Deprecation of Jiffyscan API Services
+
+As part of our ongoing efforts to streamline our offerings, we are deprecating our API services. Below are the two alternative approaches you can use to transition seamlessly:
+
+## Option 1: Use Jiffyscan Subgraphs Directly
+
+Jiffyscan provides subgraphs for querying blockchain data directly. Each subgraph corresponds to a specific EVM blockchain.
+
+### Subgraphs
+
+| NETWORK          | Subgraph Name                                                                                          | Subgraph Endpoint                                                                                                             | Subgraph Link |   |
+| ---------------- | ------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------- | ------------- | - |
+| mainnet          | [SUBGRAPH\_LINK](https://thegraph.com/explorer/subgraphs/FrwziBsTDBogUj57ts4U1kx5X5hDMkpX5STpUXphomyV) | `https://gateway-arbitrum.network.thegraph.com/api/{API_KEY}/subgraphs/id/FrwziBsTDBogUj57ts4U1kx5X5hDMkpX5STpUXphomyV`       |               |   |
+| matic            | [SUBGRAPH\_LINK](https://thegraph.com/explorer/subgraphs/Ga4gCEvJGuu7Y2oXCbpa3R9KMNBXWYLg1kJPxnfeu5fb) | `https://gateway-arbitrum.network.thegraph.com/api/{API_KEY}/subgraphs/id/Ga4gCEvJGuu7Y2oXCbpa3R9KMNBXWYLg1kJPxnfeu5fb`       |               |   |
+| optimism         | [SUBGRAPH\_LINK](https://thegraph.com/explorer/subgraphs/HxvH1S81KFam6J7etqtxngjLPhZMS5QcHKwPa7LVz1no) | `https://gateway-arbitrum.network.thegraph.com/api/{API_KEY}/subgraphs/id/HxvH1S81KFam6J7etqtxngjLPhZMS5QcHKwPa7LVz1no`       |               |   |
+| optimism-sepolia | [SUBGRAPH\_LINK](https://thegraph.com/explorer/subgraphs/latest)                                       | `https://api.studio.thegraph.com/query/45842/opt-sep-jiffy-scan/version/latest`                                               |               |   |
+| arbitrum-one     | [SUBGRAPH\_LINK](https://thegraph.com/explorer/subgraphs/4YM6vwSP4Mx38qXsVh6TFyrWrKgm7zvX4mFGPS2L6afk) | `https://gateway-arbitrum.network.thegraph.com/api/{API_KEY}/subgraphs/id/4YM6vwSP4Mx38qXsVh6TFyrWrKgm7zvX4mFGPS2L6afk`       |               |   |
+| avalanche        | [SUBGRAPH\_LINK](https://thegraph.com/explorer/subgraphs/ALNXErAtAfjQU8TP39nitk6ej9ZtrDYmnXRYRdWiFuGZ) | `https://gateway-arbitrum.network.thegraph.com/api/{API_KEY}/subgraphs/id/ALNXErAtAfjQU8TP39nitk6ej9ZtrDYmnXRYRdWiFuGZ`       |               |   |
+| avalanche-fuji   | [SUBGRAPH\_LINK](https://thegraph.com/explorer/subgraphs/)                                             | `https://api.studio.thegraph.com/query/45842/avalanche-fuji-jiffy-scan/version/latest/`                                       |               |   |
+| base-sepolia     | [SUBGRAPH\_LINK](https://thegraph.com/explorer/subgraphs/latest)                                       | `https://api.studio.thegraph.com/query/45842/base-sep-jiffy-scan/version/latest`                                              |               |   |
+| fuse             | [SUBGRAPH\_LINK](https://thegraph.com/explorer/subgraphs/86D6T6o7YmB5MrSJhMU2Syeqt7r927yecSYcmJrpkTXn) | `https://gateway-arbitrum.network.thegraph.com/api/{API_KEY}/subgraphs/id/86D6T6o7YmB5MrSJhMU2Syeqt7r927yecSYcmJrpkTXn`       |               |   |
+| base             | [SUBGRAPH\_LINK](https://thegraph.com/explorer/subgraphs/9KToKxWC5uRS5ecCFgAxrScDPU2rVMy3hp7abAkt6BED) | `https://gateway-arbitrum.network.thegraph.com/api/{API_KEY}/subgraphs/id/9KToKxWC5uRS5ecCFgAxrScDPU2rVMy3hp7abAkt6BED`       |               |   |
+| sepolia          | [SUBGRAPH\_LINK](https://thegraph.com/explorer/subgraphs/latest)                                       | `https://api.studio.thegraph.com/query/45842/sepolia-jiffy-scan/version/latest`                                               |               |   |
+| arbitrum-sepolia | [SUBGRAPH\_LINK](https://thegraph.com/explorer/subgraphs/8bh2bxiNysQJtqwp1HbEMKPpKDYe5JYGnykGTpmprDWZ) | `https://gateway.thegraph.com/api/1afd1a1d48e26c2c6fed3465adb9b876/subgraphs/id/8bh2bxiNysQJtqwp1HbEMKPpKDYe5JYGnykGTpmprDWZ` |               |   |
+| polygon-amoy     | [SUBGRAPH\_LINK](https://thegraph.com/explorer/subgraphs/latest)                                       | `https://api.studio.thegraph.com/query/24129/polygon-amoy-jiffy-scan/version/latest`                                          |               |   |
+
+> **Note:** Update the table with accurate links for all subgraphs.
+
+### Querying the Subgraph
+
+Subgraphs allow you to fetch data using GraphQL queries. Below is an example of how to make a query:
+
+#### Sample Query
+
+```graphql
+query GetUserOpHash($userOpHash: Bytes) {
+  userOps(where: {userOpHash: $userOpHash}) {
+    verificationGasLimit
+    userOpHash
+    transactionHash
+    }
+}
+```
+
+#### Sample `curl` Request
+
+```bash
+curl -X POST -H "Content-Type: application/json" \
+  -d '{
+    "query": "query GetUserOpHash($userOpHash: Bytes) { userOps(where: {userOpHash: $userOpHash}) { verificationGasLimit userOpHash transactionHash } }",
+    "variables": {
+      "userOpHash": "0x7e4ba0a376476010d3e4ade7b5e5783a74174d3672c620c3148ddcc0f3a58e01"
+    }
+  }' \
+  https://api.studio.thegraph.com/query/45842/sepolia-jiffy-scan/version/latest
+```
+
+Replace the URL with the appropriate subgraph link for the blockchain you are querying.
+
+## Option 2: Use Our TypeScript Library
+
+We have created a TypeScript library that implements the top two most-used APIs from Jiffyscan. This library is easy to integrate into your projects.
+
+### Resources
+
+* **GitHub Repository:** [Library GitHub](https://github.com/example/jiffyscan-ts-library)
+
+* **npm Package:** [jiffyscan-ts](https://www.npmjs.com/package/jiffyscan-ts)
+
+### Installation
+
+```bash
+npm install jiffyscan-ts
+```
+
+### Usage Example
+
+Below is an example of how to use the library:
+
+```typescript
+import { getTransactionDetails, getBlockDetails } from 'jiffyscan-ts';
+
+(async () => {
+  const txDetails = await getTransactionDetails('0xTransactionHash');
+  console.log(txDetails);
+
+  const blockDetails = await getBlockDetails(123456);
+  console.log(blockDetails);
+})();
+```
+
+Refer to the GitHub repository for complete documentation and advanced usage.
+
+***
+
+If you have any questions or require further assistance, please reach out to our support team. We are here to help ensure a smooth migration!
